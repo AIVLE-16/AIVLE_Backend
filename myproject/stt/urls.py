@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from .views import index, StartRecordingAPIView, StopRecordingAPIView
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('start/', views.start_recording, name='start_recording'),
-    path('stop/', views.stop_recording, name='stop_recording'),
+    path('', index, name='index'),
+    path('stt/start-recording/', StartRecordingAPIView.as_view(), name='start-recording'),
+    path('stt/stop-recording/', StopRecordingAPIView.as_view(), name='stop-recording'),
 ]

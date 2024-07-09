@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "stt",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
