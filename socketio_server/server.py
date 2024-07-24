@@ -91,8 +91,8 @@ import requests
 sio = socketio.Server(cors_allowed_origins='*')
 app = socketio.WSGIApp(sio)
 
-UPLOAD_FOLDER = 'uploads'
-UPLOAD_FOLDER_FULL = 'full_audio'
+UPLOAD_FOLDER = 'media/uploads'
+UPLOAD_FOLDER_FULL = 'media/full_audio'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(UPLOAD_FOLDER_FULL, exist_ok=True)
 
