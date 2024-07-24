@@ -91,8 +91,8 @@ class PostDataView(View):
         return send(request)
 
 # 아이디에 해당하는 신고 로그 정보 가져오기
-@method_decorator(csrf_exempt, name='dispatch')
-@method_decorator(verify_jwt_token, name='dispatch')
+# @method_decorator(csrf_exempt, name='dispatch')
+# @method_decorator(verify_jwt_token, name='dispatch')
 class PostLogView(View):
     def get(self, request, pk):
         post = get_object_or_404(CallLogs, pk=pk)
