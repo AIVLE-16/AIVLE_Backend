@@ -6,9 +6,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from modules.gpt_text_processor import GPTProcessor
 from modules.check_duplication import check_duplication   
-from django.shortcuts import render
 import socketio
-import eventlet
+from django.shortcuts import get_object_or_404
 from stt.models import CallLogs
 
 # 네이버 클로바 스피치 API 설정
