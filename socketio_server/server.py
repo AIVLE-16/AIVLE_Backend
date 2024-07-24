@@ -169,12 +169,33 @@ def request_locations(sid):
 def audio_full(sid, data):
     print("파일 전송됨")
     
-    filename = datetime.now().strftime('%Y%m%d%H%M%S') + '.wav'
-    file_path = os.path.join(UPLOAD_FOLDER_FULL, filename)
-    
-    with open(file_path, 'wb') as f:
-        f.write(data)
-    print("파일 저장 완료:", file_path)
+    # 파일과 로그 ID 추출
+    if isinstance(data, dict) and 'wav' in data and 'log_id' in data:
+        audio_data = data['wav']
+        log_id = data['log_id']
+        
+        # 파일 저장
+        filename = datetime.now().strftime('%Y%m%d%H%M%S') + '.wav'
+        file_path = os.path.join(UPLOAD_FOLDER_FULL, filename)
+        
+        if isinstance(audio_data, bytes):
+            with open(file_path, 'wb') as f:
+                f.write(audio_data)
+            print("오디오 파일 저장 완료:", file_path)
+            
+            # CallLogs 업데이트
+            payload = {'log_id': log_id, 'file_path': file_path}
+            print(f"Sending payload: {payload}")
+            response = requests.post('http://127.0.0.1:8000/stt/full_audio/', data=payload)
+            
+            if response.status_code == 200:
+                print("CallLogs 업데이트 완료:", log_id)
+            else:
+                try:
+                    error_response = response.json()
+                except ValueError:
+                    error_response = response.text
+                print(f"오류 발생: {response.status_code}, {error_response}")
 
 
 if __name__ == '__main__':

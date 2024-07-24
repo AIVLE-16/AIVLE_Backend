@@ -60,7 +60,7 @@ def recognize_speech(file):
                             full_text=processor.record,
                             is_duplicate=False,
                             emergency_type=prediction2,
-                        jurisdiction=prediction
+                            jurisdiction=prediction
                         )
                     log.save()
 
@@ -108,4 +108,24 @@ class ProcessAudioView(View):
         if type(result) == list:
             return JsonResponse({"message" : result[0], "log_id" : result[1]}, status=200)
         return JsonResponse({"message" : result}, status=200)
-            
+    
+@method_decorator(csrf_exempt, name='dispatch')
+class FullAudioView(View):
+    def post(self, request, *args, **kwargs):
+        log_id = request.POST.get('log_id')
+        file_path = request.POST.get('file_path')
+        
+        print(f"Received log_id: {log_id}, file_path: {file_path}")
+        
+        if log_id and file_path:
+            # CallLogs 업데이트
+            try:
+                log = CallLogs.objects.get(id=log_id)
+                log.audio_file = file_path
+                log.save()
+                print("CallLogs 업데이트 완료:", log_id)
+                return JsonResponse({'message': 'CallLogs 업데이트 완료'}, status=200)
+            except CallLogs.DoesNotExist:
+                return JsonResponse({'error': '해당 log_id를 찾을 수 없습니다.'}, status=404)
+        else:
+            return JsonResponse({'error': 'log_id와 file_path가 필요합니다.'}, status=400)
